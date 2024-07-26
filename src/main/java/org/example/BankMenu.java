@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class BankMenu {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<BankAccountContinued> accounts = new ArrayList<>();
+        ArrayList<BankAccount> accounts = new ArrayList<>();
 
         while (true) {
             // Display main menu options
@@ -21,7 +21,7 @@ public class BankMenu {
             if (choice == 1) {
                 // Create a new account
                 System.out.println("Let's make a new account!");
-                BankAccountContinued newAccount = new BankAccountContinued(accounts);
+                BankAccount newAccount = new BankAccount(accounts);
                 if (newAccount.getAccountHolderName() != null) { // Ensure the account was actually created
                     accounts.add(newAccount);  // Add the new account to the ArrayList
                     greetUser(newAccount);  // Greet the user by their name
@@ -31,7 +31,7 @@ public class BankMenu {
                 // Select an existing account
                 System.out.print("Enter account number: ");
                 String accountNumber = scanner.nextLine();
-                BankAccountContinued account = findAccount(accounts, accountNumber);
+                BankAccount account = findAccount(accounts, accountNumber);
                 if (account != null) {
                     greetUser(account);  // Greet the user by their name
                     mainMenu(account, accounts);  // Display the account-specific menu
@@ -49,12 +49,12 @@ public class BankMenu {
     }
 
     // Method to greet the user by their name
-    private static void greetUser(BankAccountContinued account) {
+    private static void greetUser(BankAccount account) {
         System.out.println("Hello, " + account.getAccountHolderName() + "!");
     }
 
     // Main menu method for interacting with the selected account
-    private static void mainMenu(BankAccountContinued account, ArrayList<BankAccountContinued> accounts) {
+    private static void mainMenu(BankAccount account, ArrayList<BankAccount> accounts) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             // Display account-specific menu options
@@ -85,7 +85,7 @@ public class BankMenu {
                 // Transfer funds to another account
                 System.out.print("Enter recipient's account number: ");
                 String toAccountNumber = scanner.nextLine();
-                BankAccountContinued toAccount = findAccount(accounts, toAccountNumber);
+                BankAccount toAccount = findAccount(accounts, toAccountNumber);
                 if (toAccount != null) {
                     System.out.print("Enter amount to transfer: ");
                     double amount = scanner.nextDouble();
@@ -96,7 +96,7 @@ public class BankMenu {
                     String response = scanner.nextLine();
                     if (response.equalsIgnoreCase("yes")) {
                         System.out.println("Creating new recipient account.");
-                        BankAccountContinued newAccount = new BankAccountContinued(accounts);
+                        BankAccount newAccount = new BankAccount(accounts);
                         if (newAccount.getAccountHolderName() != null) { // Ensure the account was actually created
                             accounts.add(newAccount);  // Add new recipient account to the ArrayList
                             System.out.print("Enter amount to transfer: ");
@@ -117,9 +117,9 @@ public class BankMenu {
     }
 
     // Method to find an account by account number
-    private static BankAccountContinued findAccount(ArrayList<BankAccountContinued> accounts, String accountNumber) {
+    private static BankAccount findAccount(ArrayList<BankAccount> accounts, String accountNumber) {
         String normalizedAccountNumber = accountNumber.replace("-", "");  // Remove hyphens for comparison
-        for (BankAccountContinued account : accounts) {
+        for (BankAccount account : accounts) {
             if (account.getAccountNumber().equals(normalizedAccountNumber)) {
                 return account;  // Return the matching account
             }
