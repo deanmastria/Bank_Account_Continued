@@ -21,10 +21,12 @@ public class BankMenu {
             if (choice == 1) {
                 // Create a new account
                 System.out.println("Let's make a new account!");
-                BankAccountContinued newAccount = new BankAccountContinued();
-                accounts.add(newAccount);  // Add the new account to the ArrayList
-                greetUser(newAccount);  // Greet the user by their name
-                mainMenu(newAccount, accounts);  // Display the account-specific menu
+                BankAccountContinued newAccount = new BankAccountContinued(accounts);
+                if (newAccount.getAccountHolderName() != null) { // Ensure the account was actually created
+                    accounts.add(newAccount);  // Add the new account to the ArrayList
+                    greetUser(newAccount);  // Greet the user by their name
+                    mainMenu(newAccount, accounts);  // Display the account-specific menu
+                }
             } else if (choice == 2) {
                 // Select an existing account
                 System.out.print("Enter account number: ");
@@ -94,11 +96,13 @@ public class BankMenu {
                     String response = scanner.nextLine();
                     if (response.equalsIgnoreCase("yes")) {
                         System.out.println("Creating new recipient account.");
-                        BankAccountContinued newAccount = new BankAccountContinued();
-                        accounts.add(newAccount);  // Add new recipient account to the ArrayList
-                        System.out.print("Enter amount to transfer: ");
-                        double amount = scanner.nextDouble();
-                        account.transfer(newAccount, amount);  // Transfer to the newly created account
+                        BankAccountContinued newAccount = new BankAccountContinued(accounts);
+                        if (newAccount.getAccountHolderName() != null) { // Ensure the account was actually created
+                            accounts.add(newAccount);  // Add new recipient account to the ArrayList
+                            System.out.print("Enter amount to transfer: ");
+                            double amount = scanner.nextDouble();
+                            account.transfer(newAccount, amount);  // Transfer to the newly created account
+                        }
                     } else {
                         System.out.println("Transfer cancelled.");
                     }
