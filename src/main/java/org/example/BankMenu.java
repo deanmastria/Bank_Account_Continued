@@ -9,6 +9,7 @@ public class BankMenu {
         ArrayList<BankAccountContinued> accounts = new ArrayList<>();
 
         while (true) {
+            // Display main menu options
             System.out.println("Bank Menu:");
             System.out.println("1. Create a new account");
             System.out.println("2. Select an existing account");
@@ -21,17 +22,17 @@ public class BankMenu {
                 // Create a new account
                 System.out.println("Let's make a new account!");
                 BankAccountContinued newAccount = new BankAccountContinued();
-                accounts.add(newAccount);
-                greetUser(newAccount);
-                mainMenu(newAccount, accounts);
+                accounts.add(newAccount);  // Add the new account to the ArrayList
+                greetUser(newAccount);  // Greet the user by their name
+                mainMenu(newAccount, accounts);  // Display the account-specific menu
             } else if (choice == 2) {
                 // Select an existing account
                 System.out.print("Enter account number: ");
                 String accountNumber = scanner.nextLine();
                 BankAccountContinued account = findAccount(accounts, accountNumber);
                 if (account != null) {
-                    greetUser(account);
-                    mainMenu(account, accounts);
+                    greetUser(account);  // Greet the user by their name
+                    mainMenu(account, accounts);  // Display the account-specific menu
                 } else {
                     System.out.println("Account not found.");
                 }
@@ -54,6 +55,7 @@ public class BankMenu {
     private static void mainMenu(BankAccountContinued account, ArrayList<BankAccountContinued> accounts) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            // Display account-specific menu options
             System.out.println("Account Menu:");
             System.out.println("1. Check balance");
             System.out.println("2. Deposit");
@@ -66,17 +68,17 @@ public class BankMenu {
 
             if (choice == 1) {
                 // Check balance
-                System.out.println(account);
+                System.out.println(account);  // Print account details
             } else if (choice == 2) {
                 // Deposit into the account
                 System.out.print("Enter amount to deposit: ");
                 double amount = scanner.nextDouble();
-                account.deposit(amount);
+                account.deposit(amount);  // Call deposit method
             } else if (choice == 3) {
                 // Withdraw from the account
                 System.out.print("Enter amount to withdraw: ");
                 double amount = scanner.nextDouble();
-                account.withdrawal(amount);
+                account.withdrawal(amount);  // Call withdrawal method
             } else if (choice == 4) {
                 // Transfer funds to another account
                 System.out.print("Enter recipient's account number: ");
@@ -85,17 +87,18 @@ public class BankMenu {
                 if (toAccount != null) {
                     System.out.print("Enter amount to transfer: ");
                     double amount = scanner.nextDouble();
-                    account.transfer(toAccount, amount);
+                    account.transfer(toAccount, amount);  // Call transfer method
                 } else {
+                    // Prompt to create a new recipient account if not found
                     System.out.println("Recipient account not found. Would you like to create a new account? (yes/no)");
                     String response = scanner.nextLine();
                     if (response.equalsIgnoreCase("yes")) {
                         System.out.println("Creating new recipient account.");
                         BankAccountContinued newAccount = new BankAccountContinued();
-                        accounts.add(newAccount);
+                        accounts.add(newAccount);  // Add new recipient account to the ArrayList
                         System.out.print("Enter amount to transfer: ");
                         double amount = scanner.nextDouble();
-                        account.transfer(newAccount, amount);
+                        account.transfer(newAccount, amount);  // Transfer to the newly created account
                     } else {
                         System.out.println("Transfer cancelled.");
                     }
@@ -114,9 +117,9 @@ public class BankMenu {
         String normalizedAccountNumber = accountNumber.replace("-", "");  // Remove hyphens for comparison
         for (BankAccountContinued account : accounts) {
             if (account.getAccountNumber().equals(normalizedAccountNumber)) {
-                return account;
+                return account;  // Return the matching account
             }
         }
-        return null;
+        return null;  // Return null if no match is found
     }
 }
